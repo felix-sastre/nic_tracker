@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  domain: one
+  is_online: false
+  checked_at: 2026-08-24 15:09:05
+
+two:
+  domain: two
+  is_online: false
+  checked_at: 2026-08-24 15:09:05
