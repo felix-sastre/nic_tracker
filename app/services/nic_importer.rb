@@ -19,14 +19,21 @@ class NicImporter
       downloaded_data = URI.open(absolute_url).read
 
       CSV.parse(downloaded_data, headers: true, header_converters: :symbol).each do |row|
-        Domain.create(
-          name: row[:dominio],
-          zone: row[:zona],
-          registration_date: @db_date,
-          nic_id: row[:id_dominio],
-          transaction_type: row[:tipo]
-        )
+        import_row(row)
       end
     end
+  end
+
+  private
+
+  def import_row(row)
+    Domain.find_or_create_by!(nic_id: row[:id_dominio]) do |domain|
+      domain.name = row[:dominio]
+      domain.zone = row[:zona]
+      domain.registration_date = @db_date
+      domain.transaction_type = row[:tipo]
+    end
+  rescue ActiveRecord::RecordNotUnique
+    retry
   end
 end
