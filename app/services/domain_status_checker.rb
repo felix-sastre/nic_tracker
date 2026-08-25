@@ -8,11 +8,13 @@ class DomainStatusChecker
   def call
     return @domain.domain_status if @domain.domain_status
 
-    DomainStatus.create!(
-      domain: @domain,
-      is_online: online?,
-      checked_at: Time.current
-    )
+    recheck
+  end
+
+  def recheck
+    status = @domain.domain_status || @domain.build_domain_status
+    status.update!(is_online: online?, checked_at: Time.current)
+    status
   end
 
   private
