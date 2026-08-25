@@ -1,5 +1,3 @@
-require "resolv"
-
 class DomainsController < ApplicationController
   before_action :set_domain, only: %i[ show edit update destroy ]
 
@@ -7,7 +5,6 @@ class DomainsController < ApplicationController
   def index
     input_date = params[:fecha] || "01-10-2018"
 
-    # Pagination math
     @current_page = (params[:page] || 1).to_i
     @current_page = 1 if @current_page < 1
     per_page = 20
@@ -20,32 +17,18 @@ class DomainsController < ApplicationController
       return
     end
 
-    # 1. Fetch and store if we don't have records for this date
-    if Domain.where(registration_date: db_date).empty?
-      NicImporter.new(input_date).import
-    end
+    NicImporter.import_if_needed(input_date, db_date)
 
-    # 2. Paginate the database query
     offset = (@current_page - 1) * per_page
     @total_records = Domain.where(registration_date: db_date).count
     @total_pages = (@total_records / per_page.to_f).ceil
 
     @domains = Domain.where(registration_date: db_date)
-                     .limit(per_page)
-                     .offset(offset)
-                     .includes(:domain_status) # Avoids N+1 query problem
+                    .limit(per_page)
+                    .offset(offset)
+                    .includes(:domain_status)
 
-    # 3. Lazy DNS Check: Only check the 20 domains we are showing on screen right now
-    @domains.each do |domain|
-      unless domain.domain_status
-        is_online = check_dns_status("#{domain.name}.#{domain.zone}")
-        DomainStatus.create(
-          domain: domain,
-          is_online: is_online,
-          checked_at: Time.current
-        )
-      end
-    end
+    @domains.each { |domain| DomainStatusChecker.new(domain).call }
   end
 
   # GET /domains/1 or /domains/1.json
@@ -115,17 +98,6 @@ class DomainsController < ApplicationController
         Date.strptime(date_string, "%d-%m-%Y")
       rescue Date::Error, ArgumentError, TypeError
         nil
-      end
-    end
-
-    def check_dns_status(full_domain_name)
-      begin
-        # If it resolves an IP, it's online
-        Resolv.getaddress(full_domain_name)
-        true
-      rescue Resolv::ResolvError
-        # If it fails to resolve, it's offline / parked
-        false
       end
     end
 end

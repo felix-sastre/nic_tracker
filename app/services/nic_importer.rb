@@ -9,6 +9,12 @@ class NicImporter
     @db_date = Date.strptime(input_date, "%d-%m-%Y")
   end
 
+  def self.import_if_needed(input_date, db_date)
+    return if Domain.exists?(registration_date: db_date)
+
+    new(input_date).import
+  end
+
   def import
     rdlist_url = "https://rdlist.nic.ar/rd_list/?date_filter=#{@input_date}"
     rdlist_page = Nokogiri::HTML(URI.open(rdlist_url))
