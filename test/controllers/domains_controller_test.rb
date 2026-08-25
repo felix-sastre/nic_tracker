@@ -10,6 +10,23 @@ class DomainsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "index shows an error for an invalid date" do
+    get domains_url, params: { fecha: "not-a-date" }
+
+    assert_response :success
+    assert_select "p", text: /Invalid date format/
+  end
+
+  test "index reuses existing domains for a date already imported" do
+    get domains_url, params: { fecha: "03-07-2026" } # coincide con registration_date de las fixtures
+
+    assert_response :success
+    assert_select "h2", text: /example-one/
+    assert_no_difference("Domain.count") do
+      get domains_url, params: { fecha: "03-07-2026" }
+    end
+  end
+
   test "should get new" do
     get new_domain_url
     assert_response :success
@@ -17,7 +34,7 @@ class DomainsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create domain" do
     assert_difference("Domain.count") do
-      post domains_url, params: { domain: { name: @domain.name, nic_id: @domain.nic_id, registration_date: @domain.registration_date, transaction_type: @domain.transaction_type, zone: @domain.zone } }
+      post domains_url, params: { domain: { name: @domain.name, nic_id: "nic-id-99", registration_date: @domain.registration_date, transaction_type: @domain.transaction_type, zone: @domain.zone } }
     end
 
     assert_redirected_to domain_url(Domain.last)

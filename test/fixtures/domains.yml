@@ -1,15 +1,15 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: MyString
-  zone: MyString
-  registration_date: 2026-08-24
-  nic_id: MyString
-  transaction_type: MyString
+  name: example-one
+  zone: .com.ar
+  registration_date: 2026-07-03
+  nic_id: nic-id-01
+  transaction_type: alta
 
 two:
-  name: MyString
-  zone: MyString
-  registration_date: 2026-08-24
-  nic_id: MyString
-  transaction_type: MyString
+  name: example-two
+  zone: .ar
+  registration_date: 2026-07-03
+  nic_id: nic-id-02
+  transaction_type: alta

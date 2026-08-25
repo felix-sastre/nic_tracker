@@ -3,9 +3,9 @@
 one:
   domain: one
   is_online: false
-  checked_at: 2026-08-24 15:09:05
+  checked_at: 2026-08-03 15:09:05
 
 two:
   domain: two
   is_online: false
-  checked_at: 2026-08-24 15:09:05
+  checked_at: 2026-08-03 15:09:05
