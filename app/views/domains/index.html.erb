@@ -9,7 +9,7 @@
 
     <form action="<%= root_path %>" method="GET" class="flex gap-2">
       <div class="relative">
-        <input type="text" name="fecha" placeholder="DD-MM-YYYY" value="<%= params[:fecha] || '01-10-2018' %>" 
+        <input type="text" name="fecha" placeholder="DD-MM-YYYY" value="<%= @input_date %>"
                class="pl-4 pr-10 py-2.5 bg-white border border-slate-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all">
         <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
           📅
@@ -95,13 +95,13 @@
           <div>
             <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
               <% if @current_page > 1 %>
-                <a href="<%= root_path(fecha: params[:fecha] || '01-10-2018', page: @current_page - 1) %>" class="relative inline-flex items-center rounded-l-md px-4 py-2 text-sm font-semibold text-slate-900 ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus:z-20 focus:outline-offset-0">
+                <a href="<%= root_path(fecha: @input_date, page: @current_page - 1) %>" class="relative inline-flex items-center rounded-l-md px-4 py-2 text-sm font-semibold text-slate-900 ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus:z-20 focus:outline-offset-0">
                   Previo
                 </a>
               <% end %>
               
               <% if @current_page < @total_pages %>
-                <a href="<%= root_path(fecha: params[:fecha] || '01-10-2018', page: @current_page + 1) %>" class="relative inline-flex items-center rounded-r-md px-4 py-2 text-sm font-semibold text-slate-900 ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus:z-20 focus:outline-offset-0">
+                <a href="<%= root_path(fecha: @input_date, page: @current_page + 1) %>" class="relative inline-flex items-center rounded-r-md px-4 py-2 text-sm font-semibold text-slate-900 ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus:z-20 focus:outline-offset-0">
                   Siguiente
                 </a>
               <% end %>

@@ -3,13 +3,13 @@ class DomainsController < ApplicationController
 
   # GET /domains or /domains.json
   def index
-    input_date = params[:fecha] || "01-10-2018"
+    @input_date = params[:fecha] || "01-10-2018"
 
     @current_page = (params[:page] || 1).to_i
     @current_page = 1 if @current_page < 1
     per_page = 20
 
-    db_date = parse_valid_date(input_date)
+    db_date = parse_valid_date(@input_date)
 
     if db_date.nil?
       @domains = []
@@ -18,7 +18,7 @@ class DomainsController < ApplicationController
     end
 
     begin
-      NicImporter.import_if_needed(input_date, db_date)
+      NicImporter.import_if_needed(@input_date, db_date)
     rescue NicImporter::FetchError => e
       Rails.logger.error(e.message)
       @domains = []
