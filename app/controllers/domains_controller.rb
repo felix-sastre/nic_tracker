@@ -17,7 +17,14 @@ class DomainsController < ApplicationController
       return
     end
 
-    NicImporter.import_if_needed(input_date, db_date)
+    begin
+      NicImporter.import_if_needed(input_date, db_date)
+    rescue NicImporter::FetchError => e
+      Rails.logger.error(e.message)
+      @domains = []
+      @error = "No pudimos descargar los datos de nic.ar en este momento. Probá de nuevo en unos minutos."
+      return
+    end
 
     offset = (@current_page - 1) * per_page
     @total_records = Domain.where(registration_date: db_date).count

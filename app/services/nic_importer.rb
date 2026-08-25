@@ -4,6 +4,8 @@ require "csv"
 require "date"
 
 class NicImporter
+  class FetchError < StandardError; end
+
   def initialize(input_date)
     @input_date = input_date
     @db_date = Date.strptime(input_date, "%d-%m-%Y")
@@ -28,6 +30,8 @@ class NicImporter
         import_row(row)
       end
     end
+  rescue SocketError, OpenURI::HTTPError, Timeout::Error, SystemCallError => e
+    raise FetchError, "Failed to fetch nic.ar data: #{e.class} - #{e.message}"
   end
 
   private
