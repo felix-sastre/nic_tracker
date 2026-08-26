@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_24_234932) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_26_001728) do
   create_table "domain_statuses", force: :cascade do |t|
     t.datetime "checked_at"
     t.datetime "created_at", null: false
@@ -30,6 +30,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_24_234932) do
     t.string "zone"
     t.index ["nic_id"], name: "index_domains_on_nic_id", unique: true
     t.index ["registration_date"], name: "index_domains_on_registration_date"
+  end
+
+  create_table "imported_dates", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "domains_count", default: 0, null: false
+    t.datetime "imported_at", null: false
+    t.date "registration_date", null: false
+    t.datetime "updated_at", null: false
+    t.index ["registration_date"], name: "index_imported_dates_on_registration_date", unique: true
   end
 
   add_foreign_key "domain_statuses", "domains"

@@ -12,7 +12,7 @@ class NicImporter
   end
 
   def self.import_if_needed(input_date, db_date)
-    return if Domain.exists?(registration_date: db_date)
+    return if ImportedDate.exists?(registration_date: db_date)
 
     new(input_date).import
   end
@@ -30,6 +30,8 @@ class NicImporter
         import_row(row)
       end
     end
+
+    record_import!
   rescue SocketError, OpenURI::HTTPError, Timeout::Error, SystemCallError => e
     raise FetchError, "Failed to fetch nic.ar data: #{e.class} - #{e.message}"
   end
@@ -45,5 +47,15 @@ class NicImporter
     end
   rescue ActiveRecord::RecordNotUnique
     retry
+  end
+
+  def record_import!
+    ImportedDate.create!(
+      registration_date: @db_date,
+      domains_count: Domain.where(registration_date: @db_date).count,
+      imported_at: Time.current
+    )
+  rescue ActiveRecord::RecordNotUnique
+    nil
   end
 end
