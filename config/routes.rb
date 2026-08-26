@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :domains
+  resources :domains, only: :index
   get "stats", to: "stats#index"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
