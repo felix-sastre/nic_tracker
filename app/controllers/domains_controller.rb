@@ -17,12 +17,10 @@ class DomainsController < ApplicationController
       return
     end
 
-    begin
-      NicImporter.import_if_needed(@input_date, db_date)
-    rescue NicImporter::FetchError => e
-      Rails.logger.error(e.message)
+    unless ImportedDate.exists?(registration_date: db_date)
+      NicImportJob.perform_later(@input_date, db_date)
       @domains = []
-      @error = "No pudimos descargar los datos de nic.ar en este momento. Probá de nuevo en unos minutos."
+      @importing = true
       return
     end
 

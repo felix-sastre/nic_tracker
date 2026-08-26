@@ -29,7 +29,11 @@
     </div>
   <% end %>
 
-  <% if @domains.empty? && !@error %>
+  <% if @importing %>
+    <div class="bg-indigo-50 border-l-4 border-indigo-400 p-4 mb-8 rounded-r-xl">
+      <p class="text-indigo-700 font-medium">Importando datos de nic.ar para esta fecha. Volvé a cargar la página en unos segundos.</p>
+    </div>
+  <% elsif @domains.empty? && !@error %>
     <div class="bg-white rounded-2xl border border-slate-200 border-dashed p-12 text-center">
       <p class="text-slate-500 text-lg">No records found for this date.</p>
     </div>
