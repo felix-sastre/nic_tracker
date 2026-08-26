@@ -36,6 +36,17 @@ class DomainsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "index enqueues a DNS check job only for domains without a status yet" do
+    unchecked = Domain.create!(name: "unchecked", zone: "com.ar", registration_date: domains(:one).registration_date, nic_id: "unchecked-1", transaction_type: "alta")
+
+    assert_enqueued_with(job: DomainStatusCheckJob, args: [ unchecked.id ]) do
+      get domains_url, params: { fecha: "03-07-2026" }
+    end
+
+    assert_enqueued_jobs 1, only: DomainStatusCheckJob
+    assert_select "span", text: /Chequeando/
+  end
+
   test "should get new" do
     get new_domain_url
     assert_response :success

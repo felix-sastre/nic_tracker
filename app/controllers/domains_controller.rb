@@ -33,7 +33,9 @@ class DomainsController < ApplicationController
                     .offset(offset)
                     .includes(:domain_status)
 
-    @domains.each { |domain| DomainStatusChecker.new(domain).call }
+    @domains.each do |domain|
+      DomainStatusCheckJob.perform_later(domain.id) unless domain.domain_status
+    end
   end
 
   # GET /domains/1 or /domains/1.json
