@@ -23,7 +23,7 @@ class DomainsControllerTest < ActionDispatch::IntegrationTest
     get domains_url, params: { fecha: "not-a-date" }
 
     assert_response :success
-    assert_select "p", text: /Invalid date format/
+    assert_select "p", text: /Formato de fecha inválido/
   end
 
   test "index reuses existing domains for a date already imported" do

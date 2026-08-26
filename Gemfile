@@ -68,3 +68,4 @@ end
 gem "nokogiri", ">= 1.19.4"
 gem "csv", ">= 3.3.6"
 gem "tailwindcss-rails", ">= 4.6"
+gem "rails-i18n"

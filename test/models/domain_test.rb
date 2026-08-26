@@ -26,7 +26,7 @@ class DomainTest < ActiveSupport::TestCase
     duplicate = Domain.new(name: "second", zone: "com.ar", registration_date: Date.today, nic_id: "dup-1")
 
     assert_not duplicate.valid?
-    assert_includes duplicate.errors[:nic_id], "has already been taken"
+    assert_includes duplicate.errors[:nic_id], "ya está en uso"
   end
 
   test "is valid with a unique nic_id" do

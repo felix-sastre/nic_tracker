@@ -13,7 +13,7 @@ class DomainsController < ApplicationController
 
     if db_date.nil?
       @domains = []
-      @error = "Invalid date format. Please use DD-MM-YYYY."
+      @error = "Formato de fecha inválido. Usá DD-MM-YYYY."
       return
     end
 

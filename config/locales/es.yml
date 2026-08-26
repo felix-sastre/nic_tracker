@@ -1,0 +1,11 @@
+es:
+  activerecord:
+    models:
+      domain: "dominio"
+    attributes:
+      domain:
+        name: "nombre"
+        zone: "zona"
+        registration_date: "fecha de registro"
+        nic_id: "ID de nic.ar"
+        transaction_type: "tipo de transacción"
