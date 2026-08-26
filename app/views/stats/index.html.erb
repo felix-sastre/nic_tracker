@@ -1,0 +1,45 @@
+<div class="max-w-6xl mx-auto px-4 py-10 font-sans">
+
+  <!-- Header -->
+  <header class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
+    <div>
+      <h1 class="text-3xl font-extrabold tracking-tight text-slate-900 mb-2">Estadísticas</h1>
+      <p class="text-slate-500">Dominios online vs offline, por fecha de registro.</p>
+    </div>
+
+    <%= link_to "← Volver a dominios", root_path, class: "text-sm font-semibold text-indigo-600 hover:text-indigo-800" %>
+  </header>
+
+  <% if @stats.empty? %>
+    <div class="bg-white rounded-2xl border border-slate-200 border-dashed p-12 text-center">
+      <p class="text-slate-500 text-lg">Todavía no hay dominios importados.</p>
+    </div>
+  <% else %>
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+      <table class="min-w-full divide-y divide-slate-200">
+        <thead class="bg-slate-50">
+          <tr>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Fecha</th>
+            <th scope="col" class="px-6 py-3 text-right text-xs font-semibold text-slate-500 uppercase tracking-wider">Total</th>
+            <th scope="col" class="px-6 py-3 text-right text-xs font-semibold text-green-700 uppercase tracking-wider">Online</th>
+            <th scope="col" class="px-6 py-3 text-right text-xs font-semibold text-slate-500 uppercase tracking-wider">Offline</th>
+            <th scope="col" class="px-6 py-3 text-right text-xs font-semibold text-slate-400 uppercase tracking-wider">Sin chequear</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100">
+          <% @stats.each do |row| %>
+            <tr>
+              <td class="px-6 py-4 text-sm font-medium text-slate-900">
+                <%= link_to row[:registration_date].strftime("%d-%m-%Y"), root_path(fecha: row[:registration_date].strftime("%d-%m-%Y")), class: "hover:text-indigo-600" %>
+              </td>
+              <td class="px-6 py-4 text-sm text-slate-500 text-right"><%= row[:total] %></td>
+              <td class="px-6 py-4 text-sm text-green-700 font-semibold text-right"><%= row[:online] %></td>
+              <td class="px-6 py-4 text-sm text-slate-500 text-right"><%= row[:offline] %></td>
+              <td class="px-6 py-4 text-sm text-slate-400 text-right"><%= row[:pending] %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+</div>
