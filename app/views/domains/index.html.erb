@@ -3,8 +3,8 @@
   <!-- Header & Search -->
   <header class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
     <div>
-      <h1 class="text-3xl font-extrabold tracking-tight text-slate-900 mb-2">Nic.ar Domains</h1>
-      <p class="text-slate-500">Extracting and monitoring daily registrations.</p>
+      <h1 class="text-3xl font-extrabold tracking-tight text-slate-900 mb-2">Dominios de Nic.ar</h1>
+      <p class="text-slate-500">Extracción y monitoreo de altas diarias.</p>
       <%= link_to "Ver estadísticas →", stats_path, class: "text-sm font-semibold text-indigo-600 hover:text-indigo-800" %>
     </div>
 
@@ -35,7 +35,7 @@
     </div>
   <% elsif @domains.empty? && !@error %>
     <div class="bg-white rounded-2xl border border-slate-200 border-dashed p-12 text-center">
-      <p class="text-slate-500 text-lg">No records found for this date.</p>
+      <p class="text-slate-500 text-lg">No se encontraron registros para esta fecha.</p>
     </div>
   <% else %>
     
@@ -64,11 +64,11 @@
                 </span>
               <% elsif domain.domain_status.is_online %>
                 <span class="inline-flex items-center gap-1.5 rounded-full bg-green-50 px-2.5 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
-                  <span class="w-1.5 h-1.5 rounded-full bg-green-600"></span> Online
+                  <span class="w-1.5 h-1.5 rounded-full bg-green-600"></span> En línea
                 </span>
               <% else %>
                 <span class="inline-flex items-center gap-1.5 rounded-full bg-slate-50 px-2.5 py-1 text-xs font-medium text-slate-500 ring-1 ring-inset ring-slate-500/20">
-                  <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span> Offline
+                  <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span> Fuera de línea
                 </span>
               <% end %>
             </div>
@@ -81,10 +81,10 @@
 
           <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
             <span class="text-xs text-slate-400 font-medium">
-              Checked: <%= domain.domain_status&.checked_at&.strftime("%H:%M") || 'Pendiente' %>
+              Chequeado: <%= domain.domain_status&.checked_at&.strftime("%H:%M") || 'Pendiente' %>
             </span>
             <a href="http://<%= domain.name %>.<%= domain.zone %>" target="_blank" class="text-sm font-semibold text-indigo-600 group-hover:text-indigo-800 flex items-center gap-1">
-              Visit ↗
+              Visitar ↗
             </a>
           </div>
         </div>
@@ -97,12 +97,12 @@
         <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
           <div>
             <p class="text-sm text-slate-700">
-              Showing page <span class="font-medium"><%= @current_page %></span> of <span class="font-medium"><%= @total_pages %></span>
-              (<span class="font-medium"><%= @total_records %></span> total domains)
+              Mostrando página <span class="font-medium"><%= @current_page %></span> de <span class="font-medium"><%= @total_pages %></span>
+              (<span class="font-medium"><%= @total_records %></span> dominios en total)
             </p>
           </div>
           <div>
-            <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+            <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Paginación">
               <% if @current_page > 1 %>
                 <a href="<%= root_path(fecha: @input_date, page: @current_page - 1) %>" class="relative inline-flex items-center rounded-l-md px-4 py-2 text-sm font-semibold text-slate-900 ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus:z-20 focus:outline-offset-0">
                   Previo

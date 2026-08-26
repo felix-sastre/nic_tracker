@@ -57,7 +57,7 @@ class DomainsController < ApplicationController
 
     respond_to do |format|
       if @domain.save
-        format.html { redirect_to @domain, notice: "Domain was successfully created." }
+        format.html { redirect_to @domain, notice: "Dominio creado correctamente." }
         format.json { render :show, status: :created, location: @domain }
       else
         format.html { render :new, status: :unprocessable_content }
@@ -70,7 +70,7 @@ class DomainsController < ApplicationController
   def update
     respond_to do |format|
       if @domain.update(domain_params)
-        format.html { redirect_to @domain, notice: "Domain was successfully updated.", status: :see_other }
+        format.html { redirect_to @domain, notice: "Dominio actualizado correctamente.", status: :see_other }
         format.json { render :show, status: :ok, location: @domain }
       else
         format.html { render :edit, status: :unprocessable_content }
@@ -84,7 +84,7 @@ class DomainsController < ApplicationController
     @domain.destroy!
 
     respond_to do |format|
-      format.html { redirect_to domains_path, notice: "Domain was successfully destroyed.", status: :see_other }
+      format.html { redirect_to domains_path, notice: "Dominio eliminado correctamente.", status: :see_other }
       format.json { head :no_content }
     end
   end
